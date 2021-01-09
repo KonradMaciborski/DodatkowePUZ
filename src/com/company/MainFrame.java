@@ -10,39 +10,39 @@ import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
 
-    private MyThread thread;
+    private SymulationThread thread;
 
-    private int size;
+    private int fSize;
     private Pole[][] fields;
 
     private JPanel gridPanel;
     private JPanel buttonPanel;
 
-    private JButton button;
+    private JButton startButton;
     private JButton kotyButton;
     private JButton myszyButton;
 
 
-    public MainFrame() {
+    public MainFrame(int fSize) {
 
-        size = 50;
-        fields = new Pole[size][size];
+        this.fSize = fSize;
+        this.fields = new Pole[fSize][fSize];
 
-        this.setTitle("K.Maciborski s16013 - PUZ Dodatkowe");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1000, 1000);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
+        this.setSize(1000, 1000);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setTitle("K.Maciborski s16013 - PUZ Dodatkowe");
 
         gridPanel = new JPanel();
-        gridPanel.setLayout(new GridLayout(size, size));
+        gridPanel.setLayout(new GridLayout(fSize, fSize));
 
-        button = new JButton("START");
+        startButton = new JButton("START");
         kotyButton = new JButton("Koty");
         myszyButton = new JButton("Myszy");
 
         buttonPanel = new JPanel();
-        buttonPanel.add(button);
+        buttonPanel.add(startButton);
         buttonPanel.add(kotyButton);
         buttonPanel.add(myszyButton);
 
@@ -56,6 +56,7 @@ public class MainFrame extends JFrame {
         this.getContentPane().add(gridPanel, BorderLayout.CENTER);
         this.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
+        this.setLocationRelativeTo(null);
         this.repaint();
         gridPanel.repaint();
 
@@ -75,20 +76,36 @@ public class MainFrame extends JFrame {
             kotyButton.setBackground(null);
         });
 
-        button.addActionListener(e -> {
+        startButton.addActionListener(e -> {
             myszyButton.setEnabled(false);
             kotyButton.setEnabled(false);
             myszyButton.setBackground(null);
             kotyButton.setBackground(null);
-            startThread();
+            startButton.setEnabled(false);
         });
     }
 
-    private void startThread() {
-
-        thread = new MyThread(size, fields, gridPanel, this, button, myszyButton, kotyButton);
-        thread.start();
-
+    public int getfSize() {
+        return fSize;
     }
 
+    public Pole[][] getFields() {
+        return fields;
+    }
+
+    public JPanel getGridPanel() {
+        return gridPanel;
+    }
+
+    public JButton getStartButton() {
+        return startButton;
+    }
+
+    public JButton getKotyButton() {
+        return kotyButton;
+    }
+
+    public JButton getMyszyButton() {
+        return myszyButton;
+    }
 }

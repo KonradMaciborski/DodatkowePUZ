@@ -4,35 +4,44 @@ import java.awt.Color;
 
 import javax.swing.JButton;
 
-@SuppressWarnings("serial")
+
 public class Pole extends JButton {
 
 	Color color;
+	Color catColor;
+	Color mouseColor;
 
-	public Pole(JButton myszyButton, JButton kotyButton) {
+	boolean areKotyEnabled;
+	boolean areMyszyEnabled;
+
+	public Pole(JButton mouseButton, JButton catButton) {
 
 		this.color = Color.WHITE;
+		this.catColor = Color.RED;
+		this.mouseColor = Color.GREEN;
 
 		this.setText(null);
 		this.setBackground(color);
 		this.setBounds(10, 10, 1, 1);
 
-		this.addActionListener(e -> {
+		this.addActionListener(event -> {
 
-			if(myszyButton.isEnabled()){
+			System.out.println("Myszy:" + areMyszyEnabled + ", Koty: " + areKotyEnabled);
 
-				if (!color.equals(Color.GREEN)) {
-					color = Color.GREEN;
+			if(!mouseButton.isEnabled()){
+
+				if (!color.equals(mouseColor)) {
+					color = mouseColor;
 					this.setBackground(color);
 				} else {
 					color = Color.WHITE;
 					this.setBackground(color);
 				}
+			}
+			else if (!catButton.isEnabled()) {
 
-			} else if (kotyButton.isEnabled()){
-
-				if (!color.equals(Color.RED)) {
-					color = Color.RED;
+				if (!color.equals(catColor)) {
+					color = catColor;
 					this.setBackground(color);
 				} else {
 					color = Color.WHITE;

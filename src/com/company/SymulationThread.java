@@ -6,37 +6,40 @@ import java.time.Instant;
 
 import javax.swing.*;
 
-public class MyThread extends Thread {
+public class SymulationThread extends Thread {
 
-	Pole[][] fields;
+	private int size;
+	private boolean running;
 
-	JFrame frame;
-	JPanel gridPanel;
+	private Pole[][] fields;
 
-	JButton button;
-	JButton kotyButton;
-	JButton myszyButton;
+	private MainFrame mainFrame;
 
-	Color cat;
-	Color mouse;
-	Color catBorder;
-	Color mouseBorder;
+	private JPanel gridPanel;
 
-	int size;
-	boolean running;
-	
-	public MyThread(int size, Pole[][] fields, JPanel gridPanel, JFrame frame,
-							JButton button, JButton myszyButton, JButton kotyButton) {
+	private JButton button;
+	private JButton kotyButton;
+	private JButton myszyButton;
+
+	private Color cat;
+	private Color mouse;
+	private Color catBorder;
+	private Color mouseBorder;
+
+
+	public SymulationThread(MainFrame mainFrame) {
 
 		this.running = true;
 
-		this.size = size;
-		this.frame = frame;
-		this.fields = fields;
-		this.button = button;
-		this.gridPanel = gridPanel;
-		this.kotyButton = kotyButton;
-		this.myszyButton = myszyButton;
+		this.mainFrame = mainFrame;
+		this.mainFrame.setLocationRelativeTo(null);
+
+		this.size = mainFrame.getfSize();
+		this.fields = mainFrame.getFields();
+		this.button = mainFrame.getStartButton();
+		this.gridPanel = mainFrame.getGridPanel();
+		this.kotyButton = mainFrame.getKotyButton();
+		this.myszyButton = mainFrame.getMyszyButton();
 
 		this.cat = Color.RED;
 		this.mouse = Color.GREEN;
@@ -70,23 +73,23 @@ public class MyThread extends Thread {
 						if (fields[(i - 1 + size) % size][(j - 1 + size) % size].getColor().equals(Color.WHITE))
 							fields[(i - 1 + size) % size][(j - 1 + size) % size].setColor(mouseBorder);
 
-						if (fields[(i - 1 + size) % size][(j + size) % size].getColor().equals(Color.WHITE))
-							fields[(i - 1 + size) % size][(j + size) % size].setColor(mouseBorder);
+						if (fields[(i - 1 + size) % size][j].getColor().equals(Color.WHITE))
+							fields[(i - 1 + size) % size][j].setColor(mouseBorder);
 
 						if (fields[(i - 1 + size) % size][(j + 1 + size) % size].getColor().equals(Color.WHITE))
 							fields[(i - 1 + size) % size][(j + 1 + size) % size].setColor(mouseBorder);
 
-						if (fields[(i + size) % size][(j - 1 + size) % size].getColor().equals(Color.WHITE))
-							fields[(i + size) % size][(j - 1 + size) % size].setColor(mouseBorder);
+						if (fields[i][(j - 1 + size) % size].getColor().equals(Color.WHITE))
+							fields[i][(j - 1 + size) % size].setColor(mouseBorder);
 
-						if (fields[(i + size) % size][(j + 1 + size) % size].getColor().equals(Color.WHITE))
-							fields[(i + size) % size][(j + 1 + size) % size].setColor(mouseBorder);
+						if (fields[i][(j + 1 + size) % size].getColor().equals(Color.WHITE))
+							fields[i][(j + 1 + size) % size].setColor(mouseBorder);
 
 						if (fields[(i + 1 + size) % size][(j + 1 + size) % size].getColor().equals(Color.WHITE))
 							fields[(i + 1 + size) % size][(j + 1 + size) % size].setColor(mouseBorder);
 
-						if (fields[(i + 1 + size) % size][(j + size) % size].getColor().equals(Color.WHITE))
-							fields[(i + 1 + size) % size][(j + size) % size].setColor(mouseBorder);
+						if (fields[(i + 1 + size) % size][j].getColor().equals(Color.WHITE))
+							fields[(i + 1 + size) % size][j].setColor(mouseBorder);
 
 						if (fields[(i + 1 + size) % size][(j - 1 + size) % size].getColor().equals(Color.WHITE))
 							fields[(i + 1 + size) % size][(j - 1 + size) % size].setColor(mouseBorder);
@@ -94,28 +97,28 @@ public class MyThread extends Thread {
 
 					if (fields[i][j].getColor().equals(cat)) {
 
-						if (fields[(i - 1 + size) % size][(j - 1 + size) % size].getColor().equals(Color.WHITE))
+						if (!fields[(i - 1 + size) % size][(j - 1 + size) % size].getColor().equals(cat))
 							fields[(i - 1 + size) % size][(j - 1 + size) % size].setColor(catBorder);
 
-						if (fields[(i - 1 + size) % size][(j + size) % size].getColor().equals(Color.WHITE))
-							fields[(i - 1 + size) % size][(j + size) % size].setColor(catBorder);
+						if (!fields[(i - 1 + size) % size][j].getColor().equals(cat))
+							fields[(i - 1 + size) % size][j].setColor(catBorder);
 
-						if (fields[(i - 1 + size) % size][(j + 1 + size) % size].getColor().equals(Color.WHITE))
+						if (!fields[(i - 1 + size) % size][(j + 1 + size) % size].getColor().equals(cat))
 							fields[(i - 1 + size) % size][(j + 1 + size) % size].setColor(catBorder);
 
-						if (fields[(i + size) % size][(j - 1 + size) % size].getColor().equals(Color.WHITE))
-							fields[(i + size) % size][(j - 1 + size) % size].setColor(catBorder);
+						if (!fields[i][(j - 1 + size) % size].getColor().equals(cat))
+							fields[i][(j - 1 + size) % size].setColor(catBorder);
 
-						if (fields[(i + size) % size][(j + 1 + size) % size].getColor().equals(Color.WHITE))
-							fields[(i + size) % size][(j + 1 + size) % size].setColor(catBorder);
+						if (!fields[i][(j + 1 + size) % size].getColor().equals(cat))
+							fields[i][(j + 1 + size) % size].setColor(catBorder);
 
-						if (fields[(i + 1 + size) % size][(j + 1 + size) % size].getColor().equals(Color.WHITE))
+						if (!fields[(i + 1 + size) % size][(j + 1 + size) % size].getColor().equals(cat))
 							fields[(i + 1 + size) % size][(j + 1 + size) % size].setColor(catBorder);
 
-						if (fields[(i + 1 + size) % size][(j + size) % size].getColor().equals(Color.WHITE))
-							fields[(i + 1 + size) % size][(j + size) % size].setColor(catBorder);
+						if (!fields[(i + 1 + size) % size][j].getColor().equals(cat))
+							fields[(i + 1 + size) % size][j].setColor(catBorder);
 
-						if (fields[(i + 1 + size) % size][(j - 1 + size) % size].getColor().equals(Color.WHITE))
+						if (!fields[(i + 1 + size) % size][(j - 1 + size) % size].getColor().equals(cat))
 							fields[(i + 1 + size) % size][(j - 1 + size) % size].setColor(catBorder);
 					}
 
@@ -126,16 +129,16 @@ public class MyThread extends Thread {
 								fields[(i - 1 + size) % size][(j - 1 + size) % size].getColor().equals(catBorder)) {
 							neighbors++;
 						}
-						else if (fields[(i - 1 + size) % size][(j + size) % size].getColor().equals(cat) ||
-								fields[(i - 1 + size) % size][(j + size) % size].getColor().equals(catBorder)) {
+						else if (fields[(i - 1 + size) % size][j].getColor().equals(cat) ||
+								fields[(i - 1 + size) % size][j].getColor().equals(catBorder)) {
 							neighbors++;
 						}
 						else if (fields[(i - 1 + size) % size][(j + 1 + size) % size].getColor().equals(cat) ||
 								fields[(i - 1 + size) % size][(j + 1 + size) % size].getColor().equals(catBorder)) {
 							neighbors++;
 						}
-						else if (fields[(i + size) % size][(j - 1 + size) % size].getColor().equals(cat) ||
-								fields[(i + size) % size][(j - 1 + size) % size].getColor().equals(catBorder)) {
+						else if (fields[i][(j - 1 + size) % size].getColor().equals(cat) ||
+								fields[i][(j - 1 + size) % size].getColor().equals(catBorder)) {
 							neighbors++;
 						}
 						else if (fields[(i + size) % size][(j + 1 + size) % size].getColor().equals(cat) ||
@@ -146,8 +149,8 @@ public class MyThread extends Thread {
 								fields[(i + 1 + size) % size][(j + 1 + size) % size].getColor().equals(catBorder)) {
 							neighbors++;
 						}
-						else if (fields[(i + 1 + size) % size][(j + size) % size].getColor().equals(cat) ||
-								fields[(i + 1 + size) % size][(j + size) % size].getColor().equals(catBorder)) {
+						else if (fields[(i + 1 + size) % size][j].getColor().equals(cat) ||
+								fields[(i + 1 + size) % size][j].getColor().equals(catBorder)) {
 							neighbors++;
 						}
 						else if (fields[(i + 1 + size) % size][(j - 1 + size) % size].getColor().equals(cat) ||
@@ -174,11 +177,24 @@ public class MyThread extends Thread {
 
 					if(fields[i][j].getColor().equals(cat) || fields[i][j].getColor().equals(mouse)) {
 
-						int iMove = Math.random() > 0.5 ? 1 : -1;
-						int jMove = Math.random() > 0.5 ? 1 : -1;
+						Color animalColorTmp = fields[i][j].getColor();
+						int counter = 0;
 
-						tmp[(i + iMove + size) % size][(j + jMove + size) % size].setColor(fields[i][j].getColor());
-						tmp[i][j].setColor(Color.WHITE);
+						int iMove = 0;
+						int jMove = 0;
+
+						do {
+
+							iMove = Math.random() > 0.5 ? 1 : -1;
+							jMove = Math.random() > 0.5 ? 1 : -1;
+							counter++;
+
+						} while(tmp[(i + iMove + size) % size][(j + jMove + size) % size].getColor() == animalColorTmp && counter < 8);
+
+						if (counter < 8) {
+							tmp[(i + iMove + size) % size][(j + jMove + size) % size].setColor(fields[i][j].getColor());
+							tmp[i][j].setColor(Color.WHITE);
+						}
 
 					}
 				}
@@ -203,17 +219,18 @@ public class MyThread extends Thread {
 
 			gridPanel.revalidate();
 			gridPanel.repaint();
-			frame.repaint();
+			mainFrame.repaint();
 
 			if(!czyJeszczeSaMyszy) {
 
 				final Instant end = Instant.now();
 				final Duration interval = Duration.between(start, end);
 
-				JOptionPane.showMessageDialog(frame, "Koniec! Symulacja trwała: " + interval.getSeconds() + " sekund");
+				JOptionPane.showMessageDialog(mainFrame, "Koniec! Symulacja trwała: " + interval.getSeconds() + " sekund");
 
 				running = false;
-				//System.exit(0); //XD
+
+				System.exit(0); //XD
 			}
 
 		}
