@@ -8,45 +8,48 @@ import javax.swing.*;
 
 public class MyThread extends Thread {
 
-	boolean running = true;
-	JButton stopButton;
-	JButton button;
-	int size;
-	
-	Pole[][]fields;
-	
-	JPanel gridPanel;
+	Pole[][] fields;
+
 	JFrame frame;
+	JPanel gridPanel;
 
-	Color cat = Color.RED;
-	Color catBorder = new Color(255, 196, 196);
-	Color mouse = Color.GREEN;
-	Color mouseBorder = new Color(195, 253, 195);
+	JButton button;
+	JButton kotyButton;
+	JButton myszyButton;
 
+	Color cat;
+	Color mouse;
+	Color catBorder;
+	Color mouseBorder;
+
+	int size;
+	boolean running;
 	
-	public MyThread(JButton stopButton, JButton button, int size, Pole[][] fields, JPanel gridPanel, JFrame frame) {
-		super();
-		this.stopButton = stopButton;
-		this.button = button;
+	public MyThread(int size, Pole[][] fields, JPanel gridPanel, JFrame frame,
+							JButton button, JButton myszyButton, JButton kotyButton) {
+
+		this.running = true;
+
 		this.size = size;
-		this.fields = fields;
-		this.gridPanel = gridPanel;
 		this.frame = frame;
+		this.fields = fields;
+		this.button = button;
+		this.gridPanel = gridPanel;
+		this.kotyButton = kotyButton;
+		this.myszyButton = myszyButton;
+
+		this.cat = Color.RED;
+		this.mouse = Color.GREEN;
+		this.catBorder = new Color(255, 196, 196);
+		this.mouseBorder = new Color(195, 253, 195);
+
 	}
 
-	public void zamknijSei(){
-		running = false;
-	}
-	
-	public boolean isRunning(){
-		return running;
-	}
-
+	@Override
 	public void run() {
 
 		final Instant start = Instant.now();
 
-		stopButton.setEnabled(true);
 		button.setEnabled(false);
 
 		while (running) {
@@ -55,7 +58,7 @@ public class MyThread extends Thread {
 
 			for (int i = 0; i < tmp.length; i++) {
 				for (int j = 0; j < tmp.length; j++) {
-					tmp[i][j] = new Pole();
+					tmp[i][j] = new Pole(myszyButton, kotyButton);
 				}
 			}
 
@@ -123,38 +126,31 @@ public class MyThread extends Thread {
 								fields[(i - 1 + size) % size][(j - 1 + size) % size].getColor().equals(catBorder)) {
 							neighbors++;
 						}
-
-						if (fields[(i - 1 + size) % size][(j + size) % size].getColor().equals(cat) ||
+						else if (fields[(i - 1 + size) % size][(j + size) % size].getColor().equals(cat) ||
 								fields[(i - 1 + size) % size][(j + size) % size].getColor().equals(catBorder)) {
 							neighbors++;
 						}
-
-						if (fields[(i - 1 + size) % size][(j + 1 + size) % size].getColor().equals(cat) ||
+						else if (fields[(i - 1 + size) % size][(j + 1 + size) % size].getColor().equals(cat) ||
 								fields[(i - 1 + size) % size][(j + 1 + size) % size].getColor().equals(catBorder)) {
 							neighbors++;
 						}
-
-						if (fields[(i + size) % size][(j - 1 + size) % size].getColor().equals(cat) ||
+						else if (fields[(i + size) % size][(j - 1 + size) % size].getColor().equals(cat) ||
 								fields[(i + size) % size][(j - 1 + size) % size].getColor().equals(catBorder)) {
 							neighbors++;
 						}
-
-						if (fields[(i + size) % size][(j + 1 + size) % size].getColor().equals(cat) ||
+						else if (fields[(i + size) % size][(j + 1 + size) % size].getColor().equals(cat) ||
 								fields[(i + size) % size][(j + 1 + size) % size].getColor().equals(catBorder)) {
 							neighbors++;
 						}
-
-						if (fields[(i + 1 + size) % size][(j + 1 + size) % size].getColor().equals(cat) ||
+						else if (fields[(i + 1 + size) % size][(j + 1 + size) % size].getColor().equals(cat) ||
 								fields[(i + 1 + size) % size][(j + 1 + size) % size].getColor().equals(catBorder)) {
 							neighbors++;
 						}
-
-						if (fields[(i + 1 + size) % size][(j + size) % size].getColor().equals(cat) ||
+						else if (fields[(i + 1 + size) % size][(j + size) % size].getColor().equals(cat) ||
 								fields[(i + 1 + size) % size][(j + size) % size].getColor().equals(catBorder)) {
 							neighbors++;
 						}
-
-						if (fields[(i + 1 + size) % size][(j - 1 + size) % size].getColor().equals(cat) ||
+						else if (fields[(i + 1 + size) % size][(j - 1 + size) % size].getColor().equals(cat) ||
 								fields[(i + 1 + size) % size][(j - 1 + size) % size].getColor().equals(catBorder)) {
 							neighbors++;
 						}
@@ -162,12 +158,13 @@ public class MyThread extends Thread {
 						if (neighbors > 0) {
 							fields[i][j].setColor(Color.WHITE);
 						}
+
 					}
 				}
 			}
 
 			try {
-				Thread.sleep(200);
+				Thread.sleep(250);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -191,6 +188,7 @@ public class MyThread extends Thread {
 			gridPanel.removeAll();
 
 			boolean czyJeszczeSaMyszy = false;
+
 			for (int i = 0; i < tmp.length; i++) {
 				for (int j = 0; j < tmp.length; j++) {
 
@@ -207,14 +205,15 @@ public class MyThread extends Thread {
 			gridPanel.repaint();
 			frame.repaint();
 
-			if(!czyJeszczeSaMyszy){
+			if(!czyJeszczeSaMyszy) {
 
 				final Instant end = Instant.now();
 				final Duration interval = Duration.between(start, end);
 
 				JOptionPane.showMessageDialog(frame, "Koniec! Symulacja trwała: " + interval.getSeconds() + " sekund");
 
-				System.exit(0); //XD
+				running = false;
+				//System.exit(0); //XD
 			}
 
 		}

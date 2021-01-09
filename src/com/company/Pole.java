@@ -9,17 +9,17 @@ public class Pole extends JButton {
 
 	Color color;
 
-	public Pole() {
+	public Pole(JButton myszyButton, JButton kotyButton) {
 
 		this.color = Color.WHITE;
-		this.setBackground(color);
-		this.setText(null);
-		this.setBounds(10, 10, 1, 1);
 
+		this.setText(null);
+		this.setBackground(color);
+		this.setBounds(10, 10, 1, 1);
 
 		this.addActionListener(e -> {
 
-			if(!Main.myszyButton.isEnabled()){
+			if(myszyButton.isEnabled()){
 
 				if (!color.equals(Color.GREEN)) {
 					color = Color.GREEN;
@@ -29,7 +29,7 @@ public class Pole extends JButton {
 					this.setBackground(color);
 				}
 
-			} else if (!Main.kotyButton.isEnabled()){
+			} else if (kotyButton.isEnabled()){
 
 				if (!color.equals(Color.RED)) {
 					color = Color.RED;
