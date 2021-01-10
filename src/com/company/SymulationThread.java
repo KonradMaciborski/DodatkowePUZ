@@ -3,6 +3,8 @@ package com.company;
 import java.awt.Color;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -11,15 +13,15 @@ public class SymulationThread extends Thread {
 	private int fSize;
 	private boolean running;
 
-	private Pole[][] fields;
+	private Tile[][] fields;
 
 	private MainFrame mainFrame;
 
 	private JPanel gridPanel;
 
 	private JButton startButton;
-	private JButton kotyButton;
-	private JButton myszyButton;
+	private JButton catButton;
+	private JButton mouseButton;
 
 	private Color cat;
 	private Color mouse;
@@ -38,8 +40,8 @@ public class SymulationThread extends Thread {
 		this.fields = mainFrame.getFields();
 		this.startButton = mainFrame.getStartButton();
 		this.gridPanel = mainFrame.getGridPanel();
-		this.kotyButton = mainFrame.getKotyButton();
-		this.myszyButton = mainFrame.getMyszyButton();
+		this.catButton = mainFrame.getCatButton();
+		this.mouseButton = mainFrame.getMouseButton();
 
 		this.cat = Color.RED;
 		this.mouse = Color.GREEN;
@@ -53,7 +55,7 @@ public class SymulationThread extends Thread {
 
 		final Instant start = Instant.now();
 
-		Pole[][] tmp = new Pole[fSize][fSize];
+		Tile[][] tmp = new Tile[fSize][fSize];
 		startButton.setEnabled(false);
 
 		while (running) {
@@ -61,7 +63,7 @@ public class SymulationThread extends Thread {
 			for (int i = 0; i < fSize; i++) {
 				for (int j = 0; j < fSize; j++) {
 
-					tmp[i][j] = new Pole(myszyButton, kotyButton);
+					tmp[i][j] = new Tile(mouseButton, catButton);
 
 					if (fields[i][j].getColor().equals(mouse)) {
 						setBorderForMouse(i, j);
@@ -70,6 +72,7 @@ public class SymulationThread extends Thread {
 					if (fields[i][j].getColor().equals(cat)) {
 						setBorderForCat(i, j);
 					}
+
 				}
 			}
 

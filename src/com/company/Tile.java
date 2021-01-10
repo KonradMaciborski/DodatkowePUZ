@@ -5,16 +5,13 @@ import java.awt.Color;
 import javax.swing.JButton;
 
 
-public class Pole extends JButton {
+public class Tile extends JButton {
 
 	Color color;
 	Color catColor;
 	Color mouseColor;
 
-	boolean areKotyEnabled;
-	boolean areMyszyEnabled;
-
-	public Pole(JButton mouseButton, JButton catButton) {
+	public Tile(JButton mouseButton, JButton catButton) {
 
 		this.color = Color.WHITE;
 		this.catColor = Color.RED;

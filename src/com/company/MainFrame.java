@@ -13,20 +13,20 @@ public class MainFrame extends JFrame {
     private SymulationThread thread;
 
     private int fSize;
-    private Pole[][] fields;
+    private Tile[][] fields;
 
     private JPanel gridPanel;
     private JPanel buttonPanel;
 
     private JButton startButton;
-    private JButton kotyButton;
-    private JButton myszyButton;
+    private JButton catButton;
+    private JButton mouseButton;
 
 
     public MainFrame(int fSize) {
 
         this.fSize = fSize;
-        this.fields = new Pole[fSize][fSize];
+        this.fields = new Tile[fSize][fSize];
 
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
@@ -38,17 +38,17 @@ public class MainFrame extends JFrame {
         gridPanel.setLayout(new GridLayout(fSize, fSize));
 
         startButton = new JButton("START");
-        kotyButton = new JButton("Koty");
-        myszyButton = new JButton("Myszy");
+        catButton = new JButton("Koty");
+        mouseButton = new JButton("Myszy");
 
         buttonPanel = new JPanel();
         buttonPanel.add(startButton);
-        buttonPanel.add(kotyButton);
-        buttonPanel.add(myszyButton);
+        buttonPanel.add(catButton);
+        buttonPanel.add(mouseButton);
 
         for (int i = 0; i < fields.length; i++) {
             for (int j = 0; j < fields.length; j++) {
-                fields[i][j] = new Pole(myszyButton, kotyButton);
+                fields[i][j] = new Tile(mouseButton, catButton);
                 gridPanel.add(fields[i][j]);
             }
         }
@@ -62,25 +62,25 @@ public class MainFrame extends JFrame {
 
         this.setVisible(true);
 
-        kotyButton.addActionListener(e -> {
-            kotyButton.setEnabled(false);
-            myszyButton.setEnabled(true);
-            kotyButton.setBackground(Color.CYAN);
-            myszyButton.setBackground(null);
+        catButton.addActionListener(e -> {
+            catButton.setEnabled(false);
+            mouseButton.setEnabled(true);
+            catButton.setBackground(Color.CYAN);
+            mouseButton.setBackground(null);
         });
 
-        myszyButton.addActionListener(e -> {
-            myszyButton.setEnabled(false);
-            kotyButton.setEnabled(true);
-            myszyButton.setBackground(Color.CYAN);
-            kotyButton.setBackground(null);
+        mouseButton.addActionListener(e -> {
+            mouseButton.setEnabled(false);
+            catButton.setEnabled(true);
+            mouseButton.setBackground(Color.CYAN);
+            catButton.setBackground(null);
         });
 
         startButton.addActionListener(e -> {
-            myszyButton.setEnabled(false);
-            kotyButton.setEnabled(false);
-            myszyButton.setBackground(null);
-            kotyButton.setBackground(null);
+            mouseButton.setEnabled(false);
+            catButton.setEnabled(false);
+            mouseButton.setBackground(null);
+            catButton.setBackground(null);
             startButton.setEnabled(false);
         });
     }
@@ -89,7 +89,7 @@ public class MainFrame extends JFrame {
         return fSize;
     }
 
-    public Pole[][] getFields() {
+    public Tile[][] getFields() {
         return fields;
     }
 
@@ -101,11 +101,11 @@ public class MainFrame extends JFrame {
         return startButton;
     }
 
-    public JButton getKotyButton() {
-        return kotyButton;
+    public JButton getCatButton() {
+        return catButton;
     }
 
-    public JButton getMyszyButton() {
-        return myszyButton;
+    public JButton getMouseButton() {
+        return mouseButton;
     }
 }
