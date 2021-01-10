@@ -48,6 +48,8 @@ public class SymulationThread extends Thread {
 
 	}
 
+	//mimo tego, że widać catBorder czyta jak by był kouse border.
+
 	@Override
 	public void run() {
 
@@ -55,18 +57,14 @@ public class SymulationThread extends Thread {
 
 		button.setEnabled(false);
 
+		Pole[][] tmp = new Pole[size][size];
+
 		while (running) {
-
-			Pole[][] tmp = new Pole[size][size];
-
-			for (int i = 0; i < tmp.length; i++) {
-				for (int j = 0; j < tmp.length; j++) {
-					tmp[i][j] = new Pole(myszyButton, kotyButton);
-				}
-			}
 
 			for (int i = 0; i < fields.length; i++) {
 				for (int j = 0; j < fields[i].length; j++) {
+
+					tmp[i][j] = new Pole(myszyButton, kotyButton);
 
 					if (fields[i][j].getColor().equals(mouse)) {
 
@@ -122,7 +120,15 @@ public class SymulationThread extends Thread {
 							fields[(i + 1 + size) % size][(j - 1 + size) % size].setColor(catBorder);
 					}
 
+				}
+			}
+
+
+			for (int i = 0; i < fields.length; i++) {
+				for (int j = 0; j < fields[i].length; j++) {
+
 					int neighbors = 0;
+
 					if (fields[i][j].getColor().equals(mouse)) {
 
 						if (fields[(i - 1 + size) % size][(j - 1 + size) % size].getColor().equals(cat) ||
@@ -141,8 +147,8 @@ public class SymulationThread extends Thread {
 								fields[i][(j - 1 + size) % size].getColor().equals(catBorder)) {
 							neighbors++;
 						}
-						else if (fields[(i + size) % size][(j + 1 + size) % size].getColor().equals(cat) ||
-								fields[(i + size) % size][(j + 1 + size) % size].getColor().equals(catBorder)) {
+						else if (fields[i][(j + 1 + size) % size].getColor().equals(cat) ||
+								fields[i][(j + 1 + size) % size].getColor().equals(catBorder)) {
 							neighbors++;
 						}
 						else if (fields[(i + 1 + size) % size][(j + 1 + size) % size].getColor().equals(cat) ||
@@ -165,6 +171,9 @@ public class SymulationThread extends Thread {
 					}
 				}
 			}
+
+			gridPanel.revalidate();
+			gridPanel.repaint();
 
 			try {
 				Thread.sleep(250);

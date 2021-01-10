@@ -26,8 +26,6 @@ public class Pole extends JButton {
 
 		this.addActionListener(event -> {
 
-			System.out.println("Myszy:" + areMyszyEnabled + ", Koty: " + areKotyEnabled);
-
 			if(!mouseButton.isEnabled()){
 
 				if (!color.equals(mouseColor)) {
