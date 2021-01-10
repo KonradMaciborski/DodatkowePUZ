@@ -111,6 +111,8 @@ public class SymulationThread extends Thread {
 						if (counter < 8) {
 							tmp[(i + iMove + fSize) % fSize][(j + jMove + fSize) % fSize].setColor(animalColorTmp);
 							tmp[i][j].setColor(Color.WHITE);
+						} else {
+							tmp[i][j].setColor(animalColorTmp);
 						}
 
 					}
